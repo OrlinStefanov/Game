@@ -29,6 +29,9 @@ public class playerMove : MonoBehaviour
 
     [Header("Animator")]
     public Animator animator;
+    public Animator axeAnimator;
+
+    public GameObject axe;
 
     Vector3 moveDir;
 
@@ -65,15 +68,18 @@ public class playerMove : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            Punch();
+            if (axe.activeSelf == false)
+            {
+                Punch();
+            } else
+            {
+                AxePunch();
+            }
         } else
         {
-            CheckAnimations();
-        }
-
-        CheckSprint();
-
-    }
+			CheckSprint();
+		}
+	}
 
     private void FixedUpdate()
     {
@@ -86,7 +92,7 @@ public class playerMove : MonoBehaviour
         vert = Input.GetAxisRaw("Vertical");
 
         //jump
-        if (Input.GetKey(jumpkey) && readyToJump)
+        if (Input.GetKey(jumpkey) && readyToJump && grounded)
         {
             readyToJump = false;
 
@@ -102,15 +108,15 @@ public class playerMove : MonoBehaviour
     {
         moveDir = orientation.forward * vert + orientation.right * hor;
 
-        if (grounded)
-        {
-            rb.AddForce(moveDir.normalized * speed * 10f, ForceMode.Force);
-        }
-        else if (!grounded)
-        {
-            rb.AddForce(moveDir.normalized * speed * 10f * airMultipayer, ForceMode.Force);
-        }
-    }
+		if (grounded)
+		{
+			rb.AddForce(moveDir.normalized * speed * 10f, ForceMode.Force);
+		}
+		else if (!grounded)
+		{
+			rb.AddForce(moveDir.normalized * speed * 10f * airMultipayer, ForceMode.Force);
+		}
+	}
 
     private void SpeedControll()
     {
@@ -138,49 +144,18 @@ public class playerMove : MonoBehaviour
 
     private void CheckSprint()
     {
-        if (Input.GetKey(KeyCode.W))
-        {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                speed = 10f;
-            }
-            else
-            {
-                speed = 8f;
-            }
-        }
-    }
 
-    private void CheckAnimations()
-    {
-        if (Input.GetKey(KeyCode.W))
-        {
-            animator.Play("RunForward");
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            animator.Play("RunBackward");
-        }
     }
 
     private void Punch()
     {
+    }
+
+    private void AxePunch()
+    {
         if (Input.GetMouseButton(0))
         {
-            num++;
-
-            switch (num)
-            {
-                case 1:
-                    animator.Play("PunchLeft");
-                    break;
-
-                case 2:
-                    animator.Play("PunchRight");
-                    num = 0;
-                    break;
-            }
-        } 
+            axeAnimator.Play("axeanim");
+        }
     }
 }
