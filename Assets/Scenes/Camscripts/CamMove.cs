@@ -8,6 +8,8 @@ public class CamMove : MonoBehaviour
         public float sensY;
 
         public Transform orientation;
+        public Transform flashlight;
+        public Transform hand;
 
         float xRotation;
         float yRotation;
@@ -30,6 +32,9 @@ public class CamMove : MonoBehaviour
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
             transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+            flashlight.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+            hand.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+
             orientation.rotation = Quaternion.Euler(0, yRotation, 0);
         }
 }

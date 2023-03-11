@@ -22,16 +22,11 @@ public class playerMove : MonoBehaviour
     public LayerMask whatisground;
     bool grounded;
 
-    public Transform orientation;
+	public Transform orientation;
+    public Animator animator;
 
     float hor;
     float vert;
-
-    [Header("Animator")]
-    public Animator animator;
-    public Animator axeAnimator;
-
-    public GameObject axe;
 
     Vector3 moveDir;
 
@@ -43,8 +38,6 @@ public class playerMove : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-
-        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -65,20 +58,6 @@ public class playerMove : MonoBehaviour
             rb.drag = 0f;
             rb.mass = 2;
         }
-
-        if (Input.GetMouseButton(0))
-        {
-            if (axe.activeSelf == false)
-            {
-                Punch();
-            } else
-            {
-                AxePunch();
-            }
-        } else
-        {
-			CheckSprint();
-		}
 	}
 
     private void FixedUpdate()
@@ -140,22 +119,5 @@ public class playerMove : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
-    }
-
-    private void CheckSprint()
-    {
-
-    }
-
-    private void Punch()
-    {
-    }
-
-    private void AxePunch()
-    {
-        if (Input.GetMouseButton(0))
-        {
-            axeAnimator.Play("axeanim");
-        }
     }
 }
